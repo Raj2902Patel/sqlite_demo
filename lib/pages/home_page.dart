@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,35 +65,16 @@ class _HomePageState extends State<HomePage> {
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 30.0),
-                child: PopupMenuButton(itemBuilder: (_) {
-                  return [
-                    PopupMenuItem(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SettingPage(),
-                          ),
-                        );
-                      },
-                      child: const Row(
-                        children: [
-                          Icon(CupertinoIcons.settings),
-                          SizedBox(
-                            width: 12,
-                          ),
-                          Text(
-                            "Settings",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ];
-                }),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingPage(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.settings)),
               )
             ],
           ),
@@ -180,8 +160,8 @@ class _HomePageState extends State<HomePage> {
                                       builder: (BuildContext context) =>
                                           AlertDialog(
                                         backgroundColor: themeDark
-                                            ? Colors.white54
-                                            : Colors.white54,
+                                            ? Colors.blueGrey
+                                            : Colors.blueGrey,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10.0),
@@ -209,58 +189,66 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         actions: [
-                                          OutlinedButton(
-                                            style: OutlinedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  backgroundColor: themeDark
+                                                      ? Colors.white54
+                                                      : Colors.white54,
+                                                ),
+                                                onPressed: () async {
+                                                  context
+                                                      .read<DBProvider>()
+                                                      .deleteNote(
+                                                        allNotes[index][DBHelper
+                                                            .COLUMN_NOTE_SNO],
+                                                      );
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  "DELETE",
+                                                  style: TextStyle(
+                                                    color: themeDark
+                                                        ? Colors.black
+                                                        : Colors.black,
+                                                  ),
+                                                ),
                                               ),
-                                              backgroundColor: themeDark
-                                                  ? Colors.white54
-                                                  : Colors.blueGrey,
-                                            ),
-                                            onPressed: () async {
-                                              context
-                                                  .read<DBProvider>()
-                                                  .deleteNote(
-                                                    allNotes[index][DBHelper
-                                                        .COLUMN_NOTE_SNO],
-                                                  );
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text(
-                                              "OK",
-                                              style: TextStyle(
-                                                color: themeDark
-                                                    ? Colors.black
-                                                    : Colors.white,
+                                              const SizedBox(
+                                                width: 5,
                                               ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          OutlinedButton(
-                                            style: OutlinedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              backgroundColor: themeDark
-                                                  ? Colors.white54
-                                                  : Colors.blueGrey,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text(
-                                              "CANCEL",
-                                              style: TextStyle(
-                                                color: themeDark
-                                                    ? Colors.black
-                                                    : Colors.white,
-                                              ),
-                                            ),
+                                              OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  backgroundColor: themeDark
+                                                      ? Colors.white54
+                                                      : Colors.white54,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "CANCEL",
+                                                  style: TextStyle(
+                                                    color: themeDark
+                                                        ? Colors.black
+                                                        : Colors.black,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           )
                                         ],
                                       ),
